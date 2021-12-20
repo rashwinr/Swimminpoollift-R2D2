@@ -5,7 +5,7 @@ opts = spreadsheetImportOptions("NumVariables", 12);
 
 % Specify sheet and range
 opts.Sheet = "Sheet1";
-opts.DataRange = "A2:L277";
+opts.DataRange = "A2:L273";
 
 % Specify column names and types
 opts.VariableNames = ["Designation", "Section", "D", "B", "t", "T", "M", "A", "Ix", "Iy", "Rx", "Ry"];
@@ -46,43 +46,46 @@ figure(2)
 plot(errortable.Var5)
 hold on
 plot(errortable.Var7)
+figure(3)
+plot(errortable.Var8)
+figure(4)
+plot(errortable.Var9)
 function [Ixx,R,SecArea] = crossectional_analysis(Section,X,Y,Tx,Ty)
 switch Section
     case 'P'
         SecArea = (pi*X*Y-pi*(X-2*Tx)*(Y-2*Ty))/400;
         Ixx = pi*(X*Y*X*Y-(X-2*Tx)^4)/640000;
-        R = 20*Ixx/X;
+        R = sqrt(Ixx/SecArea);
 
     case 'B'
         SecArea = 2*Tx*((X-4*Tx)+(Y-4*Tx)+(3*pi*Tx/2))/100;
-        Ixx =  ((X*Y*Y*Y)-(X-2*Tx)*(Y-2*Ty)^3)/120000;
-        %         Ixx =  (T*(Y-4*T)^3/6)+ (( ((B-4T)*T^3/3)+(T*(B-4T)*(D-T)^2))/2) + (pi*t^4(405-(3136/pi^2))/108)+(3*pi*T^2)*((9*pi*(Y-4*T)+56*T)/18*pi)^2;
-        R = 20*Ixx/Y;
-
+        Ixx =((Tx*(Y-4*Ty)^3/6)+((((X-4*Tx)*Ty^3/3)+((X-4*Tx)*(Y-Tx)^2*Tx))/2)+(pi*Tx^4*(405-(3136/pi^2))/108)+(3*pi*Tx^2*((9*pi*(Y-4*Tx)+56*Tx)/(18*pi))^2));
+        Ixx = Ixx/10000;
+        R = sqrt(Ixx/SecArea);
+        
     case 'L'
         SecArea = ((X-Tx)*Ty+(Y-Ty)*Tx+Tx*Ty)/100;
         Ixx = ((Tx*(Y-Ty)^3/12)+(X*Ty^3/12)+(X*Ty*(X-Ty)*(X-Ty)/4))/10000;
-        R = 20*Ixx/Y;
+        R = sqrt(Ixx/SecArea);
 
     case 'C'
         SecArea = (2*X*Ty+(Y-2*Ty)*Tx)/100;
         Ixx = ((Tx*(Y-2*Ty)^3/12)+2*((Ty*Ty*Ty*X/12)+(Ty*X*(Y-Ty)*(Y-Ty)/4)))/10000;
-        R = 20*Ixx/Y;
+        R = sqrt(Ixx/SecArea);
 
     case 'I'
         SecArea = (2*X*Ty+(Y-2*Ty)*Tx)/100;
         Ixx = (Tx*(Y-2*Ty)^3/12)+2*((Ty*Ty*Ty*X/12)+(Ty*X*(Y-Ty)*(Y-Ty)/4));
         Ixx = Ixx/10000;
-        R = 20*Ixx/Y;
+        R = sqrt(Ixx/SecArea);
 
 end
 
 end
-
 
 function errortable = tableerror(Crosssectionproperties)
 for i=1:height(Crosssectionproperties)
-        [Ixx(i),B,SecArea(i)] = crossectional_analysis(Crosssectionproperties.Section(i),Crosssectionproperties.D(i),Crosssectionproperties.B(i),Crosssectionproperties.t(i),Crosssectionproperties.T(i));
+        [Ixx(i),B,SecArea(i)] = crossectional_analysis(Crosssectionproperties.Section(i),Crosssectionproperties.B(i),Crosssectionproperties.D(i),Crosssectionproperties.t(i),Crosssectionproperties.T(i));
         Aerr(i) = (SecArea(i)-Crosssectionproperties.A(i))*100/Crosssectionproperties.A(i);
         Ierr(i) = (Ixx(i)-Crosssectionproperties.Ix(i))*100/Crosssectionproperties.Ix(i);
 end
@@ -91,7 +94,3 @@ errortable = table(Crosssectionproperties.Section(:),Crosssectionproperties.D(:)
 
 end
 
-
-%113.5 X 113.5 X 6	B	113.50	113.50	6.00	6.00	19.53	24.81	469.81	469.81	4.35	4.35
-%113.5 X 1133 X 5.4	B	113.50	1133.00	5.40	5.40	17.74	22.60	432.58	432.58	4.38	4.38
-%113.5 X 113.5 X 4.5	B	113.50	113.50	4.50	4.50	14.99	19.10	372.88	372.88	4.42	4.42
