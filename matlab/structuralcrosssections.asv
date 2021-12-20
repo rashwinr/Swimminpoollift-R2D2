@@ -21,60 +21,72 @@ Crosssectionproperties = readtable("C:\Users\Ashwin Raj Kumar\MATLAB Drive\Proje
 clear opts
 
 
+% [A,B,C] = crossectional_analysis('P',21.3,21.3,3.2,3.2,Crosssectionproperties);
+% disp('Pipe of dia P15')
+% disp(strcat('A = ',num2str(C,'%.2f')))
+% disp(strcat('Ixx = ',num2str(A,'%.2f')))
+% [A,B,C] = crossectional_analysis('B',60,40,2.9,2.9,Crosssectionproperties);
+% disp('Box of 60 x 40')
+% disp(strcat('A = ',num2str(C,'%.2f')))
+% disp(strcat('Ixx = ',num2str(A,'%.2f')))
+% [A,B,C] = crossectional_analysis('C',75,40,4.8,7.5,Crosssectionproperties);
+% disp('C channel of 75 x 40')
+% disp(strcat('A = ',num2str(C,'%.2f')))
+% disp(strcat('Ixx = ',num2str(A,'%.2f')))
+% [A,B,C] = crossectional_analysis('I',100,100,6,10,Crosssectionproperties);
+% disp('I channel of 75 x 45')
+% disp(strcat('A = ',num2str(C,'%.2f')))
+% disp(strcat('Ixx = ',num2str(A,'%.2f')))
+errortable = tableerror(Crosssectionproperties);
 
 
-[A,B,C] = crossectional_analysis('P',21.3,21.3,3.2,3.2,Crosssectionproperties);
-disp('Pipe of dia P15')
-disp(conca('A = ',string(C)))
-disp(text('Ixx = ', A))
-disp(B)
-[A,B,C] = crossectional_analysis('B',40,60,2.6,2.6,Crosssectionproperties);
-disp('Box of 60 x 40')
-disp(C)
-disp(A)
-disp(B)
-[A,B,C] = crossectional_analysis('C',75,40,4.8,7.5,Crosssectionproperties)
-disp('C channel of 75 x 40')
-disp(C)
-disp(A)
-disp(B)
-[A,B,C] = crossectional_analysis('I',100,100,6,10,Crosssectionproperties);
-disp('I channel of 75 x 45')
-disp(C)
-disp(A)
-disp(B)
-
-function [Ixx,ElstMod,SecArea] = crossectional_analysis(Section,X,Y,Tx,Ty,Crosssectionproperties)
+function [Ixx,R,SecArea] = crossectional_analysis(Section,X,Y,Tx,Ty)
 switch Section
     case 'P'
         SecArea = (pi*X*Y-pi*(X-2*Tx)*(Y-2*Ty))/400;
         Ixx = pi*(X*Y*X*Y-(X-2*Tx)^4)/640000;
-        ElstMod = 20*Ixx/X;
+        R = 20*Ixx/X;
 
     case 'B'
         SecArea = 2*Tx*((X-4*Tx)+(Y-4*Tx)+(3*pi*Tx/2))/100;
         Ixx =  ((X*Y*Y*Y)-(X-2*Tx)*(Y-2*Ty)^3)/120000;
         %         Ixx =  (T*(Y-4*T)^3/6)+ (( ((B-4T)*T^3/3)+(T*(B-4T)*(D-T)^2))/2) + (pi*t^4(405-(3136/pi^2))/108)+(3*pi*T^2)*((9*pi*(Y-4*T)+56*T)/18*pi)^2;
-        ElstMod = 20*Ixx/Y;
+        R = 20*Ixx/Y;
 
     case 'L'
         SecArea = ((X-Tx)*Ty+(Y-Ty)*Tx+Tx*Ty)/100;
         Ixx = ((Tx*(Y-Ty)^3/12)+(X*Ty^3/12)+(X*Ty*(X-Ty)*(X-Ty)/4))/10000;
-        ElstMod = 20*Ixx/Y;
+        R = 20*Ixx/Y;
 
     case 'C'
         SecArea = (2*X*Ty+(Y-2*Ty)*Tx)/100;
         Ixx = ((Tx*(Y-2*Ty)^3/12)+2*((Ty*Ty*Ty*X/12)+(Ty*X*(Y-Ty)*(Y-Ty)/4)))/10000;
-        ElstMod = 20*Ixx/Y;
+        R = 20*Ixx/Y;
 
     case 'I'
         SecArea = (2*X*Ty+(Y-2*Ty)*Tx)/100;
         Ixx = (Tx*(Y-2*Ty)^3/12)+2*((Ty*Ty*Ty*X/12)+(Ty*X*(Y-Ty)*(Y-Ty)/4));
         Ixx = Ixx/10000;
-        ElstMod = 20*Ixx/Y;
+        R = 20*Ixx/Y;
 
 end
 
-A = find(Crosssectionproperties.Section==Section & Crosssectionproperties.D==X & Crosssectionproperties.D==Y);
-disp(Crosssectionproperties(A,:))
+end
+
+
+function errortable = tableerror(Crosssectionproperties)
+for i=1:height(Crosssectionproperties)
+        [Ixx(i),B,SecArea(i)] = crossectional_analysis(Crosssectionproperties.Section(i),Crosssectionproperties.D(i),Crosssectionproperties.B(i),Crosssectionproperties.t(i),Crosssectionproperties.T(i));
+        Aerr(i) = (SecArea(i)-Crosssectionproperties.A(i))*100/Crosssectionproperties.A(i);
+        Ierr(i) = (Ixx(i)-Crosssectionproperties.Ix(i))*100/Crosssectionproperties.Ix(i);
+        id(i) = Crosssectionproperties.Section(i);
+end
+
+length(Ixx)
+length(SecArea)
+length(Crosssectionproperties.D)
+length(Ierr)
+
+errortable = table(Crosssectionproperties.Section(:),Crosssectionproperties.D(:),Crosssectionproperties.B(:),Crosssectionproperties.A(:),Crosssectionproperties.Ix(:),SecArea(:),Ixx);
+
 end
