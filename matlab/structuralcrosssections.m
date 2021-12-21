@@ -50,6 +50,7 @@ figure(3)
 plot(errortable.Var8)
 figure(4)
 plot(errortable.Var9)
+
 function [Ixx,R,SecArea] = crossectional_analysis(Section,X,Y,Tx,Ty)
 switch Section
     case 'P'
@@ -80,7 +81,6 @@ switch Section
         R = sqrt(Ixx/SecArea);
 
 end
-
 end
 
 function errortable = tableerror(Crosssectionproperties)
