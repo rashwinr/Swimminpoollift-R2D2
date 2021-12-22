@@ -27,7 +27,6 @@ end
 
 %von mises = sqrt(s1^2-s1*s2+s2^2)
 %%
-
 function [Sigma_max,Sigma_min,Sigma_max_2,Sigma_min_2,Sigma_max_In,Sigma_min_In,Sigma_max_In_2,Sigma_min_In_2] = Stress_P(Section,Y,X,Tx,Ty,F_a,F_p,M,L)
         Sigma_min = 0;
         Sigma_min_2 = 0;
