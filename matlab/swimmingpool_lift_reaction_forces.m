@@ -90,15 +90,15 @@ end
 
 
 
-% figure(5)
-% plot(theta,Torque,'*-','LineWidth',1)
-% hold on
-% plot(theta,Torque1,'*-','LineWidth',1)
-% plot(theta,Moment_A,'*-','LineWidth',1)
-% xlabel('\theta [deg]','FontSize',15);
-% ylabel('Torque [N-m]','FontSize',15)
-% legend('T_{theory}','T_{practical}','M_{A}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
-% hold off
+figure(5)
+plot(theta,Torque,'*-','LineWidth',1)
+hold on
+plot(theta,Torque1,'*-','LineWidth',1)
+plot(theta,Moment_A,'*-','LineWidth',1)
+xlabel('\theta [deg]','FontSize',15);
+ylabel('Torque [N-m]','FontSize',15)
+legend('T_{theory}','T_{practical}','M_{A}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
+hold off
 
 % figure(6)
 % plot(theta,Force_A_X,'*-','LineWidth',1)
