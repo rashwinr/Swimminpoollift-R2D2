@@ -47,12 +47,12 @@ for i=1:length(theta)
     Phi_angle(i) = asind(Spring_orig_distance*sind(theta(i)-Extra_angle)/Instantaneous_Length_of_gas_spring(i));
 end
 
-% figure(3)
-% plot(theta,Phi_angle,'*-','LineWidth',1.5)
-% hold on
-% xlabel('\theta [deg]','FontSize',15);
-% ylabel('\phi [deg]','FontSize',15)
-% hold off
+figure(3)
+plot(theta,Phi_angle,'*-','LineWidth',1.5)
+hold on
+xlabel('\theta [deg]','FontSize',15);
+ylabel('\phi [deg]','FontSize',15)
+hold off
 
 %Internal reaction forces on the non-truss link
 % Sum of force along link = 0

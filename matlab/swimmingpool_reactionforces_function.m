@@ -28,19 +28,26 @@ Fs = 1500;
 [X,Y] = meshgrid(L_div,theta);
 [V3,A3,M3]=reactionforceslink2_length(Fs,R2C_A,R2C_S,R2G_A,R2G_S,theta,L_CG,L_CE,L_CK);
 
-figure(2)
+% 
+% figure(2)
+% plot(L_div,V3(1,:))
+% hold on
+% plot(L_div,M3(1,:))
+% plot(L_div,A3(1,:))
+
+figure(3)
 surf(X,Y,V3)
 xlabel('{L}_{CG}','FontSize',15)
 ylabel('\theta','FontSize',15)
 zlabel('V_{S}','FontSize',15)
 
-figure(3)
+figure(4)
 surf(X,Y,M3)
 xlabel('{L}_{CG}','FontSize',15)
 ylabel('\theta','FontSize',15)
 zlabel('M','FontSize',15)
 
-figure(4)
+figure(5)
 surf(X,Y,A3)
 xlabel('{L}_{CG}','FontSize',15)
 ylabel('\theta','FontSize',15)
@@ -56,25 +63,25 @@ for i = 1:length(theta)
     end
 end  
 
-figure(5)
+figure(6)
 surf(X,Y,vm1)
 xlabel('{L}_{CG}','FontSize',15)
 ylabel('\theta','FontSize',15)
 zlabel('\sigma_{V}','FontSize',15)
 
-figure(6)
+figure(7)
 surf(X,Y,vm2)
 xlabel('{L}_{CG}','FontSize',15)
 ylabel('\theta','FontSize',15)
 zlabel('\sigma_{V}','FontSize',15)
 
-figure(7)
+figure(8)
 surf(X,Y,vm3)
 xlabel('{L}_{CG}','FontSize',15)
 ylabel('\theta','FontSize',15)
 zlabel('\sigma_{V}','FontSize',15)
 
-figure(8)
+figure(9)
 surf(X,Y,vm4)
 xlabel('{L}_{CG}','FontSize',15)
 ylabel('\theta','FontSize',15)
@@ -151,7 +158,7 @@ for i=1:n
     if L_div(i)<=L_CK
         V3(:,i) = -R2C_S';
         M3(:,i) = (R2G_S*(L_CK-L_div(i))-Fs*sind(Phi)*(L_CK-L_div(i)))';
-        A3(:,i) = R2C_A;
+        A3(:,i) = R2G_A+Fs*cosd(Phi);
     end
 end
 
