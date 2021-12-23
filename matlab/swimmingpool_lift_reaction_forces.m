@@ -84,7 +84,7 @@ Lad = 0.493;
 for i=1:length(theta)
     Force_A_X(i) = Reaction_H(i)*cosd(theta(i)-90)+Force_C_X(i)*cosd(90-theta(i))-Force_C_Y(i)*cosd(180-theta(i));
     Force_A_Y(i) = 5000+Reaction_H(i)*sind(theta(i)-90)+Force_C_X(i)*sind(theta(i)-90)-Force_C_Y(i)*sind(180-theta(i));
-    Moment_A(i) = Torque1(i)+Lac*Force_C_X(i)*sind(theta(i))+Lac*Force_C_Y(i)*sin(theta(i)-90)+Lad*Reaction_H(i)*sind(theta(i));
+    Moment_A(i) = Torque1(i)+Lac*Force_C_X(i)*sind(theta(i))+Lac*Force_C_Y(i)*sind(theta(i)-90)+Lad*Reaction_H(i)*sind(theta(i));
 end
 
 
