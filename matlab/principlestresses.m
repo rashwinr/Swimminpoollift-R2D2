@@ -13,12 +13,16 @@ opts = setvaropts(opts, ["Designation", "Section"], "EmptyFieldRule", "auto");
 % Import the data
 Crosssectionproperties = readtable("C:\Users\Ashwin Raj Kumar\MATLAB Drive\Projects\Swimmingpoollift\data\Cross section properties.xlsx", opts, "UseExcel", false);
 clear opts
-no = find(Crosssectionproperties.Section == Section & Crosssectionproperties.Designation == Designation)
+no = find(Crosssectionproperties.Section == Section & Crosssectionproperties.Designation == Designation);
 if no== 0
     disp("Please enter the details accurately for section properties and section type")
 end
 SecArea =  Crosssectionproperties.A(no);
 Ixx = Crosssectionproperties.Ix(no);
+Y = Crosssectionproperties.D(no);
+X = Crosssectionproperties.B(no);
+Ty = Crosssectionproperties.T(no);
+Tx = Crosssectionproperties.t(no);
         Sigma_min = 0;
         Sigma_min_2 = 0;
 switch Section
@@ -27,7 +31,7 @@ switch Section
         SecArea=SecArea*10^-4;
         Ixx=Ixx*10^-8;
         Sigma_T = F_a/SecArea;
-        Sigma_M = (F_p*L)*(X/2)/Ixx*10^(-3);
+        Sigma_M = 0;
         Sigma_MM = M*(X/2)/Ixx*10^(-3);
         Sigma_max = (Sigma_T+Sigma_M-Sigma_MM)/10^6;
         Sigma_max_2 = (Sigma_T-Sigma_M+Sigma_MM)/10^6;
@@ -42,7 +46,7 @@ switch Section
         SecArea=SecArea*10^-4;
         Ixx=Ixx*10^-8;
         Sigma_T = F_a/SecArea;
-        Sigma_M = (F_p*L)*(X/2)/Ixx*10^(-3);
+        Sigma_M = 0;
         Sigma_MM = M*(X/2)/Ixx*10^(-3);
         Sigma_max = (Sigma_T+Sigma_M-Sigma_MM)/10^6;
         Sigma_max_2 = (Sigma_T-Sigma_M+Sigma_MM)/10^6;

@@ -21,10 +21,10 @@ Fs = 1500;
 [R3H_A,R3_A_L_theta] = reactionforceslink3(Mass*g,theta,L_CD,L_GJ);
 
 [R2C_A,R2C_S,Torque1,R2G_A,R2G_S,R3D_A] = reactionforceslink2(Mass*g,Fs,theta,L_CG,L_CK,L_CD,L_CE,L_GJ);
-% figure(1)
-% plot(theta,R2C_S,'*-','LineWidth',1.5)
-% hold on
-% plot(theta,R2G_S,'*-','LineWidth',1.5)
+figure(1)
+plot(theta,R2C_S,'*-','LineWidth',1.5)
+hold on
+plot(theta,R2G_S,'*-','LineWidth',1.5)
 [X,Y] = meshgrid(L_div,theta);
 [V3,A3,M3]=reactionforceslink2_length(Fs,R2C_A,R2C_S,R2G_A,R2G_S,theta,L_CG,L_CE,L_CK);
 
@@ -45,40 +45,19 @@ surf(X,Y,A3)
 xlabel('{L}_{CG}','FontSize',15)
 ylabel('\theta','FontSize',15)
 zlabel('F_{A}','FontSize',15)
-
-% vm1 = zeros(14,10);
-% vm2 = zeros(14,10);
-% vm3 = zeros(14,10);
-% vm4 = zeros(14,10);
+vm1 = zeros(14,10);
+vm2 = zeros(14,10);
+vm3 = zeros(14,10);
+vm4 = zeros(14,10);
 for i = 1:length(theta)
     for j=1:length(L_div)
-        [vm1(i,j),vm2(i,j),vm3(i,j),vm4(i,j)] = principlestresses(A3(i,j),V3(i,j),M3(i,j),L_CG,'B','50 X 25 X 2.9');
+        [vm1(j,i),vm2(j,i),vm3(j,i),vm4(j,i)] = principlestresses(A3(i,j),V3(i,),M3(j,i),L_CG,'B','45 X 45 X 2.6');
     end
 end  
 
-figure(5)
-surf(X,Y,vm1)
-xlabel('{L}_{CG}','FontSize',15)
-ylabel('\theta','FontSize',15)
-zlabel('\sigma_{V}','FontSize',15)
 
-figure(6)
-surf(X,Y,vm2)
-xlabel('{L}_{CG}','FontSize',15)
-ylabel('\theta','FontSize',15)
-zlabel('\sigma_{V}','FontSize',15)
 
-figure(7)
-surf(X,Y,vm3)
-xlabel('{L}_{CG}','FontSize',15)
-ylabel('\theta','FontSize',15)
-zlabel('\sigma_{V}','FontSize',15)
 
-figure(8)
-surf(X,Y,vm4)
-xlabel('{L}_{CG}','FontSize',15)
-ylabel('\theta','FontSize',15)
-zlabel('\sigma_{V}','FontSize',15)
 
 [R4A_A,R4A_S,M_A,T] = reactionforceslink4(Mass*g,Fs,theta,L_CG,L_CK,L_CD,L_CE,L_GJ,L_AC,L_AD);
 

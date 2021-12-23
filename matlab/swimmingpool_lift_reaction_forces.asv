@@ -90,24 +90,24 @@ end
 
 
 
-% figure(5)
-% plot(theta,Torque,'*-','LineWidth',1)
-% hold on
-% plot(theta,Torque1,'*-','LineWidth',1)
-% plot(theta,Moment_A,'*-','LineWidth',1)
-% xlabel('\theta [deg]','FontSize',15);
-% ylabel('Torque [N-m]','FontSize',15)
-% legend('T_{theory}','T_{practical}','M_{A}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
-% hold off
+figure(5)
+plot(theta,Torque,'*-','LineWidth',1)
+hold on
+plot(theta,Torque1,'*-','LineWidth',1)
+plot(theta,Moment_A,'*-','LineWidth',1)
+xlabel('\theta [deg]','FontSize',15);
+ylabel('Torque [N-m]','FontSize',15)
+legend('T_{theory}','T_{practical}','M_{A}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
+hold off
 
-% figure(6)
-% plot(theta,Force_A_X,'*-','LineWidth',1)
-% hold on
-% plot(theta,Force_A_Y,'*-','LineWidth',1)
-% xlabel('\theta [deg]','FontSize',15);
-% ylabel('Force [N]','FontSize',15)
-% legend('F_{AX}','F_{AY}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
-% hold off
+figure(6)
+plot(theta,Force_A_X,'*-','LineWidth',1)
+hold on
+plot(theta,Force_A_Y,'*-','LineWidth',1)
+xlabel('\theta [deg]','FontSize',15);
+ylabel('Force [N]','FontSize',15)
+legend('F_{AX}','F_{AY}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
+hold off
 
 [stress_Cpin,pind] = pinfind(Force_C_X,Force_C_Y,3,2);             %0.9 Lx20x3
 [stress_Cpin2,pind] = pinfind(Force_C_X,Force_C_Y,4,2);            %1.1 Lx20x4
