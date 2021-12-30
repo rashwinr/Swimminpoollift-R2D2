@@ -2,7 +2,7 @@ clc
 clear all
 close all
 theta = 90+[-15:5:50];
-Mass = 100;
+Mass = 120;
 Mass = Mass+20;         %10Kg extra mass added for the link!
 g = 9.81;
 
@@ -26,7 +26,7 @@ Fs = 1500;
 % hold on
 % plot(theta,R2G_S,'*-','LineWidth',1.5)
 [X,Y] = meshgrid(L_div,theta);
-[V3,A3,M3]=reactionforceslink2_length(Fs,R2C_A,R2C_S,R2G_A,R2G_S,theta,L_CG,L_CE,L_CK);
+[V3,A3,M3]=reactionforceslink2_length(Fs,R2C_A/2,R2C_S/2,R2G_A/2,R2G_S/2,theta,L_CG,L_CE,L_CK);
 
 % 
 % figure(2)

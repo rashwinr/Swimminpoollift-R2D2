@@ -23,25 +23,25 @@ for i=1:length(theta)
 end
 
 
-% figure(1)
-% plot(theta,Reaction_H,'*-','LineWidth',1)
-% hold on
-% plot(theta,Force_G_X,'*-','LineWidth',1)
-% plot(theta,Force_G_Y,'*-','LineWidth',1)
-% xlabel('\theta [deg]','FontSize',15);
-% ylabel('Force [Newton]','FontSize',15)
-% legend('{R_3}','F_{GX}','F_{GY}','FontSize',12,'Orientation','Horizontal','Location','northeast','NumColumns',2)
-% hold off
+figure(1)
+plot(theta,Reaction_H,'*-','LineWidth',1)
+hold on
+plot(theta,Force_G_X,'*-','LineWidth',1)
+plot(theta,Force_G_Y,'*-','LineWidth',1)
+xlabel('\theta [deg]','FontSize',15);
+ylabel('Force [Newton]','FontSize',15)
+legend('{R_3}','F_{GX}','F_{GY}','FontSize',12,'Orientation','Horizontal','Location','northeast','NumColumns',2)
+hold off
 %Gas spring distances and computing instantaneous length of gas spring
 Extra_angle = atand(203/575);
 Instantaneous_Length_of_gas_spring = sqrt(Spring_mount_distance^2 + Spring_orig_distance^2-2*Spring_orig_distance*Spring_mount_distance*cosd(theta-Extra_angle));
 
-% figure(2)
-% plot(theta,Instantaneous_Length_of_gas_spring,'*-','LineWidth',1.5)
-% hold on
-% xlabel('\theta [deg]','FontSize',15);
-% ylabel('\Gas spring length [deg]','FontSize',15)
-% hold off
+figure(2)
+plot(theta,Instantaneous_Length_of_gas_spring,'*-','LineWidth',1.5)
+hold on
+xlabel('\theta [deg]','FontSize',15);
+ylabel('\Gas spring length [deg]','FontSize',15)
+hold off
 
 for i=1:length(theta)
     Phi_angle(i) = asind(Spring_orig_distance*sind(theta(i)-Extra_angle)/Instantaneous_Length_of_gas_spring(i));
@@ -61,14 +61,14 @@ for i = 1:length(theta)
     Force_C_Y(i) = Spring_force*sind(Phi_angle(i))-Force_G_Y(i);
 end
 
-% figure(4)
-% plot(theta,Force_C_X,'*-','LineWidth',1)
-% hold on
-% plot(theta,Force_C_Y,'*-','LineWidth',1)
-% xlabel('\theta [deg]','FontSize',15);
-% ylabel('Force [Newton]','FontSize',15)
-% legend('F_{CX}','F_{CY}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
-% hold off
+figure(4)
+plot(theta,Force_C_X,'*-','LineWidth',1)
+hold on
+plot(theta,Force_C_Y,'*-','LineWidth',1)
+xlabel('\theta [deg]','FontSize',15);
+ylabel('Force [Newton]','FontSize',15)
+legend('F_{CX}','F_{CY}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
+hold off
 
 %Torque calculations
 % T = mg*(L+so)-Fs*A
@@ -88,26 +88,26 @@ for i=1:length(theta)
 end
 
 
-
-
-figure(5)
-plot(theta,Torque,'*-','LineWidth',1)
-hold on
-plot(theta,Torque1,'*-','LineWidth',1)
-plot(theta,Moment_A,'*-','LineWidth',1)
-xlabel('\theta [deg]','FontSize',15);
-ylabel('Torque [N-m]','FontSize',15)
-legend('T_{theory}','T_{practical}','M_{A}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
-hold off
-
-% figure(6)
-% plot(theta,Force_A_X,'*-','LineWidth',1)
+% 
+% 
+% figure(5)
+% plot(theta,Torque,'*-','LineWidth',1)
 % hold on
-% plot(theta,Force_A_Y,'*-','LineWidth',1)
+% plot(theta,Torque1,'*-','LineWidth',1)
+% plot(theta,Moment_A,'*-','LineWidth',1)
 % xlabel('\theta [deg]','FontSize',15);
-% ylabel('Force [N]','FontSize',15)
-% legend('F_{AX}','F_{AY}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
+% ylabel('Torque [N-m]','FontSize',15)
+% legend('T_{theory}','T_{practical}','M_{A}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
 % hold off
+
+figure(6)
+plot(theta,Force_A_X,'*-','LineWidth',1)
+hold on
+plot(theta,Force_A_Y,'*-','LineWidth',1)
+xlabel('\theta [deg]','FontSize',15);
+ylabel('Force [N]','FontSize',15)
+legend('F_{AX}','F_{AY}','FontSize',12,'Orientation','Horizontal','Location','southeast','NumColumns',2)
+hold off
 
 [stress_Cpin,pind] = pinfind(Force_C_X,Force_C_Y,3,2);             %0.9 Lx20x3
 [stress_Cpin2,pind] = pinfind(Force_C_X,Force_C_Y,4,2);            %1.1 Lx20x4
@@ -123,37 +123,37 @@ hold off
 
 Sy = ones(size(pind))*230/6;
 
-figure(7)
-plot(pind,Sy,'LineWidth',1)
-hold on
-plot(pind,stress_Cpin,'LineWidth',1)
-plot(pind,stress_Cpin2,'LineWidth',1)
-plot(pind,stress_Cpin1,'LineWidth',1)
-plot(pind,stress_Cpin3,'LineWidth',1)
-plot(pind,stress_Cpin4,'LineWidth',1)
-xlabel('Pin Diameter [mm]','FontSize',15);
-ylabel('Stress [N/mm^{2} or MPa]','FontSize',15)
-legend('\sigma_{Y}/6','\sigma_{pinG_{Lx20x3}}','\sigma_{pinG_{Lx20x4}}','\sigma_{pinG_{Bx32x2}}','\sigma_{pinG_{Bx32x2.6}}','\sigma_{pinG_{Bx32x3.2}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
-
-figure(8)
-plot(pind,Sy,'LineWidth',1)
-hold on
-plot(pind,stress_Apin,'LineWidth',1)
-plot(pind,stress_Apin2,'LineWidth',1)
-xlabel('Pin Diameter [mm]','FontSize',15);
-ylabel('Stress [N/mm^{2} or MPa]','FontSize',15)
-legend('\sigma_{Y}/6','\sigma_{pinA_{3mm-plt}}','\sigma_{pinA_{5mm-plt}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
-
-figure(9)
-plot(pind,Sy,'LineWidth',1)
-hold on
-plot(pind,stress_DHpin,'LineWidth',1)
-plot(pind,stress_DHpin1,'LineWidth',1)
-plot(pind,stress_DHpin2,'LineWidth',1)
-plot(pind,stress_DHpin3,'LineWidth',1)
-xlabel('Pin Diameter [mm]','FontSize',15);
-ylabel('Stress [N/mm^{2} or MPa]','FontSize',15)
-legend('\sigma_{Y}/6','\sigma_{pinDH_{Lx20x3}}','\sigma_{pinDH_{Lx20x4}}','\sigma_{pinDH_{Lx25x5}}','\sigma_{pinDH_{Bx32x2.6}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
+% figure(7)
+% plot(pind,Sy,'LineWidth',1)
+% hold on
+% plot(pind,stress_Cpin,'LineWidth',1)
+% plot(pind,stress_Cpin2,'LineWidth',1)
+% plot(pind,stress_Cpin1,'LineWidth',1)
+% plot(pind,stress_Cpin3,'LineWidth',1)
+% plot(pind,stress_Cpin4,'LineWidth',1)
+% xlabel('Pin Diameter [mm]','FontSize',15);
+% ylabel('Stress [N/mm^{2} or MPa]','FontSize',15)
+% legend('\sigma_{Y}/6','\sigma_{pinG_{Lx20x3}}','\sigma_{pinG_{Lx20x4}}','\sigma_{pinG_{Bx32x2}}','\sigma_{pinG_{Bx32x2.6}}','\sigma_{pinG_{Bx32x3.2}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
+% 
+% figure(8)
+% plot(pind,Sy,'LineWidth',1)
+% hold on
+% plot(pind,stress_Apin,'LineWidth',1)
+% plot(pind,stress_Apin2,'LineWidth',1)
+% xlabel('Pin Diameter [mm]','FontSize',15);
+% ylabel('Stress [N/mm^{2} or MPa]','FontSize',15)
+% legend('\sigma_{Y}/6','\sigma_{pinA_{3mm-plt}}','\sigma_{pinA_{5mm-plt}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
+% 
+% figure(9)
+% plot(pind,Sy,'LineWidth',1)
+% hold on
+% plot(pind,stress_DHpin,'LineWidth',1)
+% plot(pind,stress_DHpin1,'LineWidth',1)
+% plot(pind,stress_DHpin2,'LineWidth',1)
+% plot(pind,stress_DHpin3,'LineWidth',1)
+% xlabel('Pin Diameter [mm]','FontSize',15);
+% ylabel('Stress [N/mm^{2} or MPa]','FontSize',15)
+% legend('\sigma_{Y}/6','\sigma_{pinDH_{Lx20x3}}','\sigma_{pinDH_{Lx20x4}}','\sigma_{pinDH_{Lx25x5}}','\sigma_{pinDH_{Bx32x2.6}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
 
 A_DH = [1.12,1.45,2.16,2.25,2.88];    % L20x3, L20x4, L25x5               
 A_CG = [1.12,1.45,2.30,2.88,3.42];
@@ -173,34 +173,34 @@ end
 mass_DH = mass_DH*0.950;
 mass_CG = mass_CG*0.950;
 mass_AC = mass_AC*0.60;
-
-figure(10)
-plot(mass_DH,62.5*ones(size(A_DH)),'LineWidth',1)
-hold on
-plot(mass_DH,36.25*ones(size(A_DH)),'LineWidth',1)
-plot(mass_DH,stress_DH,'LineWidth',1)
-xlabel('Mass [Kg]','FontSize',15);
-ylabel('Stress [MPa]','FontSize',15)
-legend('\sigma_{Axial_{MS}}/4','\sigma_{shear_{MS}}/4','\sigma_{Axial_{DH}}','\sigma_{Shear_{DH}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
-
-
-figure(11)
-plot(mass_CG,62.5*ones(size(A_CG)),'LineWidth',1)
-hold on
-plot(mass_CG,36.25*ones(size(A_CG)),'LineWidth',1)
-plot(mass_CG,stress_CG,'LineWidth',1)
-xlabel('Mass [Kg]','FontSize',15);
-ylabel('Stress [MPa]','FontSize',15)
-legend('\sigma_{Axial_{MS}}/4','\sigma_{shear_{MS}}/4','\sigma_{Axial_{CG}}','\sigma_{Shear_{CG}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
-
-figure(12)
-plot(mass_AC,Uy*ones(size(A_AC)),'LineWidth',1)
-hold on
-plot(mass_AC,36.25*ones(size(A_AC)),'LineWidth',1)
-plot(mass_AC,stress_AC,'LineWidth',1)
-xlabel('Mass [Kg]','FontSize',15);
-ylabel('Stress [MPa]','FontSize',15)
-legend('\sigma_{Axial_{MS}}/4','\sigma_{shear_{MS}}/4','\sigma_{Axial_{AC}}','\sigma_{Shear_{AC}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
+% 
+% figure(10)
+% plot(mass_DH,62.5*ones(size(A_DH)),'LineWidth',1)
+% hold on
+% plot(mass_DH,36.25*ones(size(A_DH)),'LineWidth',1)
+% plot(mass_DH,stress_DH,'LineWidth',1)
+% xlabel('Mass [Kg]','FontSize',15);
+% ylabel('Stress [MPa]','FontSize',15)
+% legend('\sigma_{Axial_{MS}}/4','\sigma_{shear_{MS}}/4','\sigma_{Axial_{DH}}','\sigma_{Shear_{DH}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
+% 
+% 
+% figure(11)
+% plot(mass_CG,62.5*ones(size(A_CG)),'LineWidth',1)
+% hold on
+% plot(mass_CG,36.25*ones(size(A_CG)),'LineWidth',1)
+% plot(mass_CG,stress_CG,'LineWidth',1)
+% xlabel('Mass [Kg]','FontSize',15);
+% ylabel('Stress [MPa]','FontSize',15)
+% legend('\sigma_{Axial_{MS}}/4','\sigma_{shear_{MS}}/4','\sigma_{Axial_{CG}}','\sigma_{Shear_{CG}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
+% 
+% figure(12)
+% plot(mass_AC,Uy*ones(size(A_AC)),'LineWidth',1)
+% hold on
+% plot(mass_AC,36.25*ones(size(A_AC)),'LineWidth',1)
+% plot(mass_AC,stress_AC,'LineWidth',1)
+% xlabel('Mass [Kg]','FontSize',15);
+% ylabel('Stress [MPa]','FontSize',15)
+% legend('\sigma_{Axial_{MS}}/4','\sigma_{shear_{MS}}/4','\sigma_{Axial_{AC}}','\sigma_{Shear_{AC}}','FontSize',15,'Orientation','Horizontal','Location','northeast','NumColumns',3)
 
 
 function [stress,pindia] = pinfind(Fx,Fy,Thickness,no_of_contact)
