@@ -116,7 +116,9 @@ for i=1:length(theta)
     %Fy for top four bar connector = 0
     R_G_Y(i) = Mg*sind(180-theta(i));
 end
-Extra_angle = atand(203/575);
+L_AE = 203;
+L_AC = 575;
+Extra_angle = atand(L_AE/L_AC);
 Instantaneous_Length_of_gas_spring = sqrt(L_CK^2 + L_CE^2-2*L_CE*L_CK*cosd(theta-Extra_angle));
 for i=1:length(theta)
     Phi_angle(i) = asind(L_CE*sind(theta(i)-Extra_angle)/Instantaneous_Length_of_gas_spring(i));
@@ -157,7 +159,7 @@ for i=1:n
     end
     if L_div(i)<=L_CK
         V3(:,i) = -R2C_S';
-        M3(:,i) = (R2G_S*(L_CK-L_div(i))-Fs*sind(Phi)*(L_CK-L_div(i)))';
+        M3(:,i) = (R2G_S*(L_CG-L_div(i))-Fs*sind(Phi)*(L_CK-L_div(i)))';
         A3(:,i) = R2G_A+Fs*cosd(Phi);
     end
 end
